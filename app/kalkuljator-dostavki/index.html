@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>TransTime — Калькулятор доставки</title>
+  <link rel="icon" href="/assets/logo-tt.png"/>
+  <!-- ВАЖНО: тянем премиум-стили, а не /calc/... -->
+  <link rel="stylesheet" href="/premium/calc/tt-calc.css"/>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Калькулятор доставки</h1>
+
+    <!-- Навигация -->
+    <div class="tabs" style="margin:16px 0 20px">
+      <a class="tab" href="/premium/calc/app/kalkuljatory/">Список</a>
+      <a class="tab" href="/premium/calc/app/raschjot-tonnazha-gruzov/">Тоннаж</a>
+      <a class="tab active" href="/premium/calc/app/kalkuljator-dostavki/">Доставка</a>
+      <a class="tab" href="/premium/calc/app/kalkuljator-nagruzki-na-osi/">Оси</a>
+    </div>
+
+    <div class="card">
+      <div class="card__title">Маршрут</div>
+
+      <div class="grid">
+        <div class="field">
+          <label for="from">Откуда</label>
+          <input id="from" placeholder="Город / адрес"/>
+        </div>
+
+        <div class="field">
+          <label for="to">Куда</label>
+          <input id="to" placeholder="Город / адрес"/>
+        </div>
+
+        <div class="field">
+          <label for="btnRoute">&nbsp;</label>
+          <button class="btn" id="btnRoute" type="button">Построить маршрут</button>
+        </div>
+      </div>
+
+      <div class="row" style="gap:12px; flex-wrap:wrap; margin-top:12px">
+        <label class="chip">
+          <input type="checkbox" id="avoidTolls">
+          Избегать платных дорог
+        </label>
+
+        <label class="chip">
+          <input type="checkbox" id="truckMode">
+          Грузовой режим (оценочно)
+        </label>
+      </div>
+
+      <!-- Карта как “премиум-блок” -->
+      <div id="map" class="tt-mapbox" style="margin-top:12px; height:320px"></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="card__title">Параметры расчёта</div>
+
+      <div class="grid">
+        <div class="field">
+          <label for="km">Расстояние (км)</label>
+          <input id="km" inputmode="decimal" placeholder="0"/>
+        </div>
+
+        <div class="field">
+          <label for="rate">Ставка (₽/км)</label>
+          <input id="rate" inputmode="decimal" placeholder="0"/>
+        </div>
+
+        <div class="field">
+          <label for="trips">Рейсы (шт)</label>
+          <input id="trips" inputmode="numeric" placeholder="1"/>
+        </div>
+
+        <div class="field">
+          <label for="btnCalc">&nbsp;</label>
+          <button class="btn" id="btnCalc" type="button">Рассчитать</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="card__title">Итого</div>
+      <div class="kpi">
+        <div class="kpi__item"><div class="muted">Стоимость</div><div id="kpiCost" class="kpi__value">0 ₽</div></div>
+        <div class="kpi__item"><div class="muted">На рейс</div><div id="kpiPerTrip" class="kpi__value">0 ₽</div></div>
+        <div class="kpi__item"><div class="muted">Мини-бриф</div><div id="kpiBrief" class="kpi__value kpi__value--small">—</div></div>
+      </div>
+      <div id="warnBox" class="warn" style="display:none; margin-top:12px"></div>
+    </div>
+  </div>
+
+  <!-- Приоритетный источник ключей -->
+  <script src="/map/config.js"></script>
+  <script src="../shared/data.js"></script>
+  <!-- ВАЖНО: подключаем общий движок калькулятора из /premium/calc/app.js -->
+  <script src="../../app.js"></script>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

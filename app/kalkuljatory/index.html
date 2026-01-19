@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TransTime — Калькуляторы</title>
+  <link rel="icon" href="/assets/logo-tt.png" />
+
+  <!-- ВАЖНО: премиум-стили -->
+  <link rel="stylesheet" href="/premium/calc/tt-calc.css" />
+
+  <style>
+    .pageWrap{max-width:1200px;margin:0 auto;padding:18px 18px 26px}
+    .topbar{
+      display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+      margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.10)
+    }
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:26px;filter:invert(1)}
+    .tabs{display:flex;gap:10px;flex-wrap:wrap}
+    .tab{
+      display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+      padding:10px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);color:#eef1f6;font-weight:800
+    }
+    .tab:hover{background:rgba(255,255,255,.10)}
+    .tab.active{
+      background:linear-gradient(135deg, rgba(77,163,255,.95), rgba(0,220,180,.85));
+      border-color:transparent;color:#071018;
+      box-shadow:0 10px 30px rgba(0,0,0,.35)
+    }
+
+    .hint{
+      margin:14px 0 16px;
+      color:rgba(238,241,246,.78);
+      font-size:13px; line-height:1.35;
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .kbd{
+      font-size:12px;padding:3px 8px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:#eef1f6
+    }
+
+    .grid{display:grid;gap:14px}
+    @media(min-width:980px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+    /* ===== кликабельная карточка ===== */
+    .tile{
+      display:block;
+      text-decoration:none;
+      color:inherit;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.16);
+      background: linear-gradient(145deg, rgba(12,14,22,.34) 0%, rgba(12,14,22,.22) 100%);
+      box-shadow: 0 12px 36px rgba(0,0,0,.50);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      overflow:hidden;
+      padding:16px;
+      position:relative;
+      transition: transform .16s ease-out, box-shadow .22s ease, border-color .16s ease-out, background .22s ease;
+      min-height: 164px;
+    }
+    .tile::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(520px 220px at 20% 0%, rgba(77,163,255,.16), transparent 60%),
+                  radial-gradient(520px 220px at 80% 100%, rgba(0,220,180,.12), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .tile > *{position:relative; z-index:1}
+
+    .tile:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.24);
+      box-shadow: 0 22px 60px rgba(0,0,0,.70);
+      background: linear-gradient(145deg, rgba(12,14,22,.42) 0%, rgba(12,14,22,.26) 100%);
+    }
+    .tile:active{ transform: translateY(0px); }
+
+    .tileTitle{margin:0 0 8px;font-size:16px;font-weight:900;color:#fff}
+    .tileText{margin:0 0 14px;color:rgba(238,241,246,.82);font-size:13px;line-height:1.35}
+
+    .tileFooter{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-top:auto;
+    }
+    .pill{
+      font-size:12px;
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:rgba(238,241,246,.9);
+      white-space:nowrap;
+    }
+
+    .cta{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:900;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color:#fff;
+      transition: transform .16s ease-out, background .16s ease-out, border-color .16s ease-out;
+      white-space:nowrap;
+    }
+    .tile:hover .cta{
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.26);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="pageWrap">
+    <div class="topbar">
+      <div class="brand">
+        <img src="/assets/logo-tt.png" alt="TT">
+        <div style="font-weight:900;color:#fff">Калькуляторы</div>
+      </div>
+
+      <div class="tabs">
+        <a class="tab active" href="/premium/calc/app/kalkuljatory/">Список</a>
+        <a class="tab" href="/premium/calc/app/raschjot-tonnazha-gruzov/">Тоннаж</a>
+        <a class="tab" href="/premium/calc/app/kalkuljator-dostavki/">Доставка</a>
+        <a class="tab" href="/premium/calc/app/kalkuljator-nagruzki-na-osi/">Оси</a>
+      </div>
+    </div>
+
+    <div class="hint">
+      Выбирай нужный калькулятор. Все значения сохраняются в браузере — можно переключаться без потери данных.
+      <span class="kbd">localStorage</span>
+    </div>
+
+    <div class="grid">
+      <a class="tile" href="/premium/calc/app/raschjot-tonnazha-gruzov/">
+        <h3 class="tileTitle">Расчёт тоннажа / загрузки</h3>
+        <p class="tileText">Отсеки/позиции, плотность (ρ), литры/тонны/м³, итоги и мини-бриф.</p>
+        <div class="tileFooter">
+          <span class="pill">Наливные / универсально</span>
+          <span class="cta">Открыть →</span>
+        </div>
+      </a>
+
+      <a class="tile" href="/premium/calc/app/kalkuljator-dostavki/">
+        <h3 class="tileTitle">Калькулятор доставки</h3>
+        <p class="tileText">Расстояние (вручную/карты), ставка ₽/км, рейсы, итоговая стоимость.</p>
+        <div class="tileFooter">
+          <span class="pill">Логистика</span>
+          <span class="cta">Открыть →</span>
+        </div>
+      </a>
+
+      <a class="tile" href="/premium/calc/app/kalkuljator-nagruzki-na-osi/">
+        <h3 class="tileTitle">Нагрузка на оси</h3>
+        <p class="tileText">Упрощённая статика автопоезда (тягач + полуприцеп). Пока оставляем как есть.</p>
+        <div class="tileFooter">
+          <span class="pill">Статика</span>
+          <span class="cta">Открыть →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>TransTime — Расчёт тоннажа грузов</title>
+
+  <link rel="icon" href="/assets/logo-tt.png"/>
+  <!-- ВАЖНО: premium-стили -->
+  <link rel="stylesheet" href="/premium/calc/tt-calc.css"/>
+</head>
+<body>
+
+<div class="wrap">
+  <h1>Расчёт тоннажа грузов</h1>
+
+  <!-- Навигация (всё в premium) -->
+  <div class="tabs" style="margin:16px 0 20px">
+    <a class="tab" href="/premium/calc/app/kalkuljatory/">Список</a>
+    <a class="tab active" href="/premium/calc/app/raschjot-tonnazha-gruzov/">Тоннаж</a>
+    <a class="tab" href="/premium/calc/app/kalkuljator-dostavki/">Доставка</a>
+    <a class="tab" href="/premium/calc/app/kalkuljator-nagruzki-na-osi/">Оси</a>
+  </div>
+
+  <!-- Конфигурация -->
+  <div class="card">
+    <div class="card__title">Конфигурация</div><!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>TransTime — Расчёт тоннажа грузов</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/assets/logo-tt.png"/>
+
+  <!-- Подключение стилей (вынесено в head, логично сгруппировано) -->
+  <link rel="stylesheet" href="/premium/calc/tt-calc.css"/>
+</head>
+<body>
+  <!-- Обёртка контента -->
+  <div class="wrap">
+    <h1>Расчёт тоннажа грузов</h1>
+
+    <!-- Навигация -->
+    <nav class="tabs" style="margin: 16px 0 20px;">
+      <a class="tab" href="/premium/calc/app/kalkuljatory/">Список</a>
+      <a class="tab active" href="/premium/calc/app/raschjot-tonnazha-gruzov/">Тоннаж</a>
+      <a class="tab" href="/premium/calc/app/kalkuljator-dostavki/">Доставка</a>
+      <a class="tab" href="/premium/calc/app/kalkuljator-nagruzki-na-osi/">Оси</a>
+    </nav>
+
+    <!-- Конфигурация -->
+    <section class="card">
+      <h2 class="card__title">Конфигурация</h2>
+      <div class="grid">
+        <div class="field">
+          <label for="tractorAxles">Тягач (оси)</label>
+          <select id="tractorAxles" aria-label="Количество осей тягача">
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="tractorSelect">Тягач (госномер)</label>
+          <select id="tractorSelect" aria-label="Выбор тягача по госномеру"></select>
+        </div>
+
+        <div class="field">
+          <label for="trailerSelect">Прицеп</label>
+          <select id="trailerSelect" aria-label="Выбор прицепа"></select>
+        </div>
+      </div>
+      <div id="trailerInfo" class="muted" style="margin-top: 10px;"></div>
+    </section>
+
+    <!-- Отсеки -->
+    <section class="card" style="margin-top: 16px;">
+      <h2 class="card__title">Отсеки</h2>
+
+      <div class="row" style="gap: 12px; flex-wrap: wrap;">
+        <label class="chip">
+          <input type="checkbox" id="chkAllSame" checked>
+          Единый тип груза
+        </label>
+
+        <div class="field" style="min-width: 260px; flex: 1;">
+          <label for="cargoType">Тип груза</label>
+          <select id="cargoType" aria-label="Тип груза"></select>
+        </div>
+
+        <div class="field" style="width: 140px;">
+          <label for="cargoRho">ρ (кг/л)</label>
+          <input
+            id="cargoRho"
+            inputmode="decimal"
+            placeholder="0,84"
+            aria-label="Плотность груза в кг/литр"
+          />
+        </div>
+
+        <button class="btn btn--ghost" id="clearAll" type="button">Очистить</button>
+        <button class="btn btn--ghost" id="fillMax" type="button">Заполнить по максимуму</button>
+      </div>
+
+      <div id="tankSection" style="margin-top: 12px;">
+        <table class="table" style="width: 100%;">
+          <thead>
+            <tr id="tankHeadRow"></tr>
+          </thead>
+          <tbody id="tankBody"></tbody>
+        </table>
+        <div id="fitSummary" class="small" style="margin-top: 8px;"></div>
+      </div>
+    </section>
+
+    <!-- Тарировка и визуализация -->
+    <section class="card" id="ttTarirovkaBox" style="margin-top: 16px; display: none;">
+      <h2 class="card__title">Тарировка</h2>
+
+      <!-- Ввод массы и объёма -->
+      <div class="row" style="gap: 12px; flex-wrap: wrap; margin-bottom: 12px;">
+        <div class="field" style="width: 200px;">
+          <label for="totalMassT">Задано, тонн</label>
+          <input
+            id="totalMassT"
+            inputmode="decimal"
+            placeholder="например, 22,5"
+            aria-label="Общая масса в тоннах"
+          />
+        </div>
+
+        <div class="field" style="width: 200px;">
+          <label for="totalVolM3">Задано, м³</label>
+          <input
+            id="totalVolM3"
+            inputmode="decimal"
+            placeholder="например, 30"
+            aria-label="Общий объём в кубометрах"
+          />
+        </div>
+
+        <div class="btns" style="gap: 8px;">
+          <button class="btn" id="btnDistributeMass" type="button">Распределить по массе</button>
+          <button class="btn" id="btnDistributeM3" type="button">Распределить по объёму</button>
+        </div>
+      </div>
+
+      <h3 class="card__title" style="margin-top: 6px;">Тарировка и уровень (мм)</h3>
+
+      <div class="grid" style="grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: end;">
+        <div class="field">
+          <label for="ttCisternSelect">Цистерна (тарировка)</label>
+          <select id="ttCisternSelect" aria-label="Выбор цистерны для тарировки">
+            <option value="">—</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>&nbsp;</label>
+          <button class="btn" id="ttCisternAuto" type="button">Подобрать</button>
+        </div>
+
+        <div class="small muted" id="ttCisternMeta" style="text-align: right;"></div>
+      </div>
+
+      <svg id="ttTankSvg" style="width: 100%; height: 190px; display: block; margin-top: 10px;"></svg>
+
+      <div id="ttMmGrid" class="grid" style="margin-top: 12px; grid-template-columns: repeat(3, 1fr); gap: 12px;"></div>
+
+      <p class="muted small" style="margin-top: 10px;">
+        Вводи <b>уровень в мм</b> — литры посчитаются по тарировке и попадут в таблицу отсеков.
+        Если меняешь <b>литры</b> — визуализация обновится автоматически.
+      </p>
+    </section>
+
+    <!-- Итоги -->
+    <section class="card" style="margin-top: 16px;">
+      <h2 class="card__title">Итого</h2>
+
+      <div class="muted" style="margin-bottom: 10px;">
+        Итог: <b id="sumL">—</b> / <b id="sumKg">0 кг</b>
+      </div>
+
+      <div class="field">
+        <label for="brief">Мини-бриф</label>
+        <textarea id="brief" readonly style="min-height: 110px;"></textarea>
+      </div>
+
+      <div class="btns" style="margin-top: 6px;">
+        <button class="btn primary" id="copyBrief" type="button">Скопировать бриф</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Скрипты (в конце body — корректная практика) -->
+  <script src="../shared/data.js"></script>
+  <script src="../tt-tarirovka.js"></script>
+  <script src="../app.js"></script>
+
+  <!-- Уведомления -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
+
+
+    <div class="grid">
+      <div class="field">
+        <label for="tractorAxles">Тягач (оси)</label>
+        <select id="tractorAxles">
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="tractorSelect">Тягач (госномер)</label>
+        <select id="tractorSelect"></select>
+      </div>
+
+      <div class="field">
+        <label for="trailerSelect">Прицеп</label>
+        <select id="trailerSelect"></select>
+      </div>
+    </div>
+
+    <div id="trailerInfo" class="muted" style="margin-top:10px"></div>
+  </div>
+
+  <!-- Отсеки -->
+  <div class="card" style="margin-top:16px">
+    <div class="card__title">Отсеки</div>
+
+    <div class="row" style="gap:12px; flex-wrap:wrap">
+      <label class="chip">
+        <input type="checkbox" id="chkAllSame" checked>
+        Единый тип груза
+      </label>
+
+      <div class="field" style="min-width:260px; flex:1">
+        <label for="cargoType">Тип груза</label>
+        <select id="cargoType"></select>
+      </div>
+
+      <div class="field" style="width:140px">
+        <label for="cargoRho">ρ (кг/л)</label>
+        <input id="cargoRho" inputmode="decimal" placeholder="0,84"/>
+      </div>
+
+      <button class="btn btn--ghost" id="clearAll" type="button">
+        Очистить
+      </button>
+
+      <button class="btn btn--ghost" id="fillMax" type="button">
+        Заполнить по максимуму
+      </button>
+    </div>
+
+    <div id="tankSection" style="margin-top:12px">
+      <table class="table" style="width:100%">
+        <thead>
+          <tr id="tankHeadRow"></tr>
+        </thead>
+        <tbody id="tankBody"></tbody>
+      </table>
+
+      <div id="fitSummary" class="small" style="margin-top:8px"></div>
+    </div>
+  </div>
+
+
+  <!-- Тарировка + визуализация цистерны -->
+  <div class="card" id="ttTarirovkaBox" style="margin-top:16px; display:none">
+    <div class="card__title">Тарировка</div>
+
+    <!-- Задано (перенесено внутрь блока Тарировка) -->
+    <div class="row" style="gap:12px; flex-wrap:wrap; margin-bottom:12px">
+      <div class="field" style="width:200px">
+        <label for="totalMassT">Задано, тонн</label>
+        <input id="totalMassT" inputmode="decimal" placeholder="например 22,5"/>
+      </div>
+
+      <div class="field" style="width:200px">
+        <label for="totalVolM3">Задано, м³</label>
+        <input id="totalVolM3" inputmode="decimal" placeholder="например 30"/>
+      </div>
+
+      <div class="btns" style="gap:8px">
+        <button class="btn" id="btnDistributeMass" type="button">
+          Распределить по массе
+        </button>
+        <button class="btn" id="btnDistributeM3" type="button">
+          Распределить по объёму
+        </button>
+      </div>
+    </div>
+
+    <div class="card__title" style="margin-top:6px">Тарировка и уровень (мм)</div>
+
+    <div class="grid" style="grid-template-columns:1fr auto 1fr; gap:12px; align-items:end">
+      <div class="field">
+        <label for="ttCisternSelect">Цистерна (тарировка)</label>
+        <select id="ttCisternSelect"><option value="">—</option></select>
+      </div>
+
+      <div class="field">
+        <label>&nbsp;</label>
+        <button class="btn" id="ttCisternAuto" type="button">Подобрать</button>
+      </div>
+
+      <div class="small muted" id="ttCisternMeta" style="text-align:right"></div>
+    </div>
+
+    <div style="margin-top:10px">
+      <svg id="ttTankSvg" style="width:100%;height:190px;display:block"></svg>
+    </div>
+
+    <div id="ttMmGrid" class="grid" style="margin-top:12px; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:12px"></div>
+
+    <div class="muted small" style="margin-top:10px">
+      Вводи <b>уровень в мм</b> — литры посчитаются по тарировке и попадут в таблицу отсеков.
+      Если меняешь <b>литры</b> — визуализация обновится автоматически.
+    </div>
+  </div>
+
+
+  <!-- Итоги -->
+  <div class="card" style="margin-top:16px">
+    <div class="card__title">Итого</div>
+
+    <div class="muted" style="margin-bottom:10px">
+      Итог: <b id="sumL">—</b> / <b id="sumKg">0 кг</b>
+    </div>
+
+    <div class="field">
+      <label for="brief">Мини-бриф</label>
+      <textarea id="brief" readonly style="min-height:110px"></textarea>
+    </div>
+
+    <div class="btns" style="margin-top:6px">
+      <button class="btn primary" id="copyBrief" type="button">
+        Скопировать бриф
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- DATA -->
+<script src="../shared/data.js"></script>
+
+<!-- ENGINE -->
+<script src="../tt-tarirovka.js"></script>
+<script src="../app.js"></script>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+</body>
+</html>

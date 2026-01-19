@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>TransTime — Нагрузка на оси</title>
+  <link rel="icon" href="/assets/logo-tt.png"/>
+  <!-- ВАЖНО: тянем премиум-стили, а не /calc/... -->
+  <link rel="stylesheet" href="/premium/calc/tt-calc.css"/>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Калькулятор нагрузки на оси</h1>
+
+    <!-- Навигация -->
+    <div class="tabs" style="margin:16px 0 20px">
+      <a class="tab" href="/premium/calc/app/kalkuljatory/">Список</a>
+      <a class="tab" href="/premium/calc/app/raschjot-tonnazha-gruzov/">Тоннаж</a>
+      <a class="tab" href="/premium/calc/app/kalkuljator-dostavki/">Доставка</a>
+      <a class="tab active" href="/premium/calc/app/kalkuljator-nagruzki-na-osi/">Оси</a>
+    </div>
+
+    <div class="card">
+      <div class="card__title">Конфигурация</div>
+
+      <div class="grid">
+        <div class="field">
+          <label for="axleTractor">Тягач (оси)</label>
+          <select id="axleTractor">
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="axleTrailer">Прицеп (оси)</label>
+          <select id="axleTrailer">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="grossTons">Полная масса (т)</label>
+          <input id="grossTons" inputmode="decimal" placeholder="20"/>
+        </div>
+
+        <div class="field">
+          <label for="btnAxleCalc">&nbsp;</label>
+          <button class="btn" id="btnAxleCalc" type="button">Рассчитать оси</button>
+        </div>
+      </div>
+
+      <p class="muted" style="margin:10px 0 0">
+        Примечание: расчёт упрощённый (статическая схема), для оценки.
+      </p>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="card__title">Результат</div>
+      <div id="axleResult" class="mono">—</div>
+    </div>
+  </div>
+
+  <script src="../shared/data.js"></script>
+  <!-- ВАЖНО: подключаем общий движок калькулятора из /premium/calc/app.js -->
+  <script src="../../app.js"></script>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
